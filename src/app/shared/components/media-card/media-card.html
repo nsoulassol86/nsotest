@@ -1,0 +1,77 @@
+<article
+  class="media-card"
+  [class.hovered]="isHovered()"
+  (click)="onClick()"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <div class="card-image">
+    @if (!imageLoaded() && !imageError()) {
+      <div class="image-placeholder"></div>
+    }
+
+    <!-- Image originale du M3U -->
+    @if (item().thumbnail && !fallbackUrl() && !imageError()) {
+      <img
+        [src]="item().thumbnail"
+        [alt]="item().title"
+        (load)="onImageLoad()"
+        (error)="onImageError()"
+        loading="lazy"
+        [class.loaded]="imageLoaded()"
+      />
+    }
+
+    <!-- Image de fallback (TVMaze, etc.) -->
+    @if (fallbackUrl()) {
+      <img
+        [src]="fallbackUrl()"
+        [alt]="item().title"
+        (load)="onImageLoad()"
+        (error)="onImageError()"
+        loading="lazy"
+        [class.loaded]="imageLoaded()"
+      />
+    }
+
+    <!-- Placeholder si aucune image disponible -->
+    @if (imageError() || (!item().thumbnail && !fallbackUrl() && !fallbackLoading())) {
+      <div class="image-fallback">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+        >
+          <rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect>
+          <circle cx="8" cy="8" r="2"></circle>
+          <path d="M21 15l-5-5L5 21"></path>
+        </svg>
+      </div>
+    }
+
+    @if (showPlayButton() && isHovered()) {
+      <button class="play-button" (click)="onPlay($event)" aria-label="Lire">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+      </button>
+    }
+  </div>
+
+  <div class="card-info">
+    <h3 class="card-title">{{ item().title }}</h3>
+    @if (showEpisodeInfo() && item().seasonNumber && item().episodeNumber) {
+      <span class="card-meta">S{{ item().seasonNumber }}E{{ item().episodeNumber }}</span>
+    }
+  </div>
+</article>

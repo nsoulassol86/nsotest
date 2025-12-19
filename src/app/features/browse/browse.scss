@@ -1,0 +1,30 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.browse-page {
+  min-height: 100vh;
+  padding-top: calc(#{$header-height} + #{$spacing-xl});
+  padding-bottom: $spacing-2xl;
+  background-color: $bg-primary;
+}
+
+.browse-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.loading-container {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+  min-height: 50vh;
+  color: $text-secondary;
+}
+
+.empty-state {
+  @include flex-center;
+  min-height: 50vh;
+  color: $text-secondary;
+  font-size: $font-size-lg;
+}

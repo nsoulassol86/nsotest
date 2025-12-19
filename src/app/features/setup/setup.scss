@@ -1,0 +1,155 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.setup-page {
+  min-height: 100vh;
+  @include flex-center;
+  background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+  padding: $spacing-xl;
+}
+
+.setup-container {
+  width: 100%;
+  max-width: 480px;
+  background-color: rgba($bg-tertiary, 0.8);
+  border-radius: $radius-xl;
+  padding: $spacing-2xl;
+  box-shadow: $shadow-xl;
+}
+
+.setup-header {
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+}
+
+.logo {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  color: $netflix-red;
+  margin: 0 0 $spacing-sm;
+  letter-spacing: -2px;
+}
+
+.subtitle {
+  color: $text-secondary;
+  font-size: $font-size-md;
+  margin: 0;
+}
+
+.setup-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.form-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
+}
+
+.form-input {
+  width: 100%;
+  padding: $spacing-md;
+  background-color: $bg-card;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  color: $text-primary;
+  font-size: $font-size-base;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $netflix-red;
+    box-shadow: 0 0 0 3px rgba($netflix-red, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background-color: rgba($netflix-red, 0.1);
+  border: 1px solid rgba($netflix-red, 0.3);
+  border-radius: $radius-md;
+  color: $netflix-red;
+  font-size: $font-size-sm;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.submit-btn {
+  @include netflix-button('primary');
+  width: 100%;
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-md;
+  gap: $spacing-sm;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  app-loading-spinner {
+    ::ng-deep .spinner {
+      width: 20px;
+      height: 20px;
+      border-width: 2px;
+    }
+
+    ::ng-deep .spinner-container {
+      padding: 0;
+    }
+  }
+}
+
+.setup-info {
+  margin-top: $spacing-2xl;
+  padding-top: $spacing-xl;
+  border-top: 1px solid rgba($text-primary, 0.1);
+
+  h3 {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    margin: 0 0 $spacing-md;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  li {
+    font-size: $font-size-sm;
+    color: $text-muted;
+    padding-left: $spacing-md;
+    position: relative;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: $netflix-red;
+    }
+  }
+}

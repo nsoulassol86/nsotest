@@ -1,0 +1,268 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.detail-page {
+  min-height: 100vh;
+  background-color: $bg-primary;
+}
+
+.detail-hero {
+  position: relative;
+  min-height: 70vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-overlay {
+  @include absolute-fill;
+  background: linear-gradient(
+    to right,
+    rgba($bg-primary, 0.95) 0%,
+    rgba($bg-primary, 0.7) 50%,
+    rgba($bg-primary, 0.4) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: calc(#{$header-height} + #{$spacing-2xl}) $spacing-xl $spacing-2xl;
+  max-width: 800px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  margin-bottom: $spacing-2xl;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.title {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  margin: 0;
+
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+}
+
+.category {
+  color: $netflix-red;
+  font-weight: $font-weight-medium;
+}
+
+.description {
+  font-size: $font-size-base;
+  color: $text-secondary;
+  line-height: 1.6;
+  margin: 0;
+  @include truncate(4);
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+}
+
+.play-btn {
+  @include netflix-button('primary');
+  padding: $spacing-md $spacing-xl;
+  font-size: $font-size-md;
+}
+
+// Seasons Section
+.seasons-section {
+  padding: $spacing-2xl $spacing-xl;
+}
+
+.season-selector {
+  margin-bottom: $spacing-xl;
+
+  h2 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0 0 $spacing-md;
+  }
+}
+
+.season-tabs {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.season-tab {
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
+  background-color: $bg-tertiary;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+    background-color: $bg-card;
+  }
+
+  &.active {
+    color: $text-primary;
+    background-color: $netflix-red;
+  }
+}
+
+.episodes-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.episode-card {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background-color: $bg-secondary;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $bg-tertiary;
+
+    .play-overlay {
+      opacity: 1;
+    }
+  }
+}
+
+.episode-thumbnail {
+  position: relative;
+  width: 180px;
+  flex-shrink: 0;
+  @include aspect-ratio(16, 9);
+  border-radius: $radius-sm;
+  overflow: hidden;
+  background-color: $bg-tertiary;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include mobile {
+    width: 120px;
+  }
+}
+
+.play-overlay {
+  @include absolute-fill;
+  @include flex-center;
+  background-color: rgba($bg-primary, 0.5);
+  color: $text-primary;
+  opacity: 0;
+  transition: opacity $transition-fast;
+}
+
+.episode-info {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex: 1;
+}
+
+.episode-number {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $text-muted;
+}
+
+.episode-title {
+  font-size: $font-size-base;
+  color: $text-primary;
+}
+
+// Player Overlay
+.player-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-player;
+  background-color: rgba($bg-primary, 0.95);
+  @include flex-center;
+  animation: fadeIn 0.3s ease;
+}
+
+.player-container {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  @include aspect-ratio(16, 9);
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  overflow: hidden;
+}
+
+.close-player {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-full;
+  background-color: rgba($bg-primary, 0.8);
+  color: $text-primary;
+  @include flex-center;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $bg-primary;
+  }
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: $bg-primary;
+}
+
+// Empty State
+.empty-state {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-lg;
+  min-height: 100vh;
+  padding-top: #{$header-height};
+  color: $text-secondary;
+}
+
+.back-btn-large {
+  @include netflix-button('outline');
+}

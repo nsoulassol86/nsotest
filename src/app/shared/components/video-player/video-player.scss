@@ -1,0 +1,204 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.player-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: $bg-primary;
+
+  &.fullscreen {
+    position: fixed;
+    inset: 0;
+    z-index: $z-player;
+  }
+}
+
+.video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: $bg-primary;
+}
+
+.close-btn {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  z-index: 20;
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-full;
+  background-color: rgba($bg-primary, 0.8);
+  color: $text-primary;
+  @include flex-center;
+  transition: background-color $transition-fast, opacity $transition-fast;
+  opacity: 0;
+
+  .player-wrapper:hover &,
+  .controls.visible ~ & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background-color: $bg-primary;
+  }
+}
+
+.buffering-overlay,
+.error-overlay {
+  @include absolute-fill;
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+  background-color: rgba($bg-primary, 0.5);
+  pointer-events: none;
+}
+
+.error-overlay {
+  color: $text-secondary;
+
+  svg {
+    color: $netflix-red;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba($text-primary, 0.1);
+  border-top-color: $netflix-red;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: $spacing-md $spacing-lg;
+  background: linear-gradient(to top, rgba($bg-primary, 0.9) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity $transition-base;
+
+  &.visible {
+    opacity: 1;
+  }
+}
+
+.title-bar {
+  padding-bottom: $spacing-md;
+}
+
+.video-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+}
+
+.progress-container {
+  padding: $spacing-sm 0;
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: rgba($text-primary, 0.3);
+  border-radius: $radius-full;
+  cursor: pointer;
+  position: relative;
+  transition: height $transition-fast;
+
+  &:hover {
+    height: 6px;
+
+    .progress-played::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.progress-played {
+  height: 100%;
+  background-color: $netflix-red;
+  border-radius: $radius-full;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 12px;
+    height: 12px;
+    background-color: $netflix-red;
+    border-radius: $radius-full;
+    opacity: 0;
+    transition: opacity $transition-fast, transform $transition-fast;
+  }
+}
+
+.controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: $spacing-sm;
+}
+
+.controls-left,
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.control-btn {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  color: $text-primary;
+  transition: background-color $transition-fast, transform $transition-fast;
+
+  &:hover {
+    background-color: rgba($text-primary, 0.1);
+    transform: scale(1.1);
+  }
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+
+  &:hover .volume-slider {
+    width: 80px;
+    opacity: 1;
+  }
+}
+
+.volume-slider {
+  width: 0;
+  opacity: 0;
+  transition: width $transition-base, opacity $transition-base;
+  accent-color: $netflix-red;
+  cursor: pointer;
+}
+
+.time-display {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,72 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.category-page {
+  min-height: 100vh;
+  padding-top: calc(#{$header-height} + #{$spacing-xl});
+  padding-bottom: $spacing-2xl;
+  background-color: $bg-primary;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: 0 $spacing-xl;
+  margin-bottom: $spacing-2xl;
+
+  @include mobile {
+    flex-wrap: wrap;
+    padding: 0 $spacing-md;
+  }
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.category-title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.category-count {
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($card-width-md, 1fr));
+  gap: $spacing-lg;
+  padding: 0 $spacing-xl;
+
+  @include mobile {
+    grid-template-columns: repeat(auto-fill, minmax($card-width-sm, 1fr));
+    gap: $spacing-md;
+    padding: 0 $spacing-md;
+  }
+}
+
+.empty-state {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-lg;
+  min-height: 50vh;
+  color: $text-secondary;
+}
+
+.back-btn-large {
+  @include netflix-button('outline');
+}

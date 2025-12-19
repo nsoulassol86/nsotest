@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fond arrondi violet -->
+  <rect width="512" height="512" rx="96" fill="url(#grad1)"/>
+
+  <!-- Icône Play stylisée -->
+  <polygon points="200,140 200,372 380,256" fill="white" opacity="0.95"/>
+
+  <!-- Barre décorative gauche -->
+  <rect x="120" y="140" width="40" height="232" rx="8" fill="white" opacity="0.4"/>
+</svg>

@@ -1,0 +1,35 @@
+<app-header />
+
+<main class="category-page">
+  @if (category(); as cat) {
+    <div class="category-header">
+      <button class="back-btn" (click)="goBack()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Retour
+      </button>
+      <h1 class="category-title">{{ cat.name }}</h1>
+      <span class="category-count">{{ cat.itemCount }} éléments</span>
+    </div>
+
+    <div class="category-grid">
+      @for (item of cat.items; track item.id) {
+        <app-media-card [item]="item" (cardClick)="onItemClick($event)" (playClick)="onPlayClick($event)" />
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <p>Catégorie non trouvée</p>
+      <button class="back-btn-large" (click)="goBack()">Retour à la navigation</button>
+    </div>
+  }
+</main>

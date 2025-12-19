@@ -1,0 +1,87 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $header-height;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+  z-index: $z-header;
+  transition: background-color $transition-base;
+
+  &:hover {
+    background-color: $bg-primary;
+  }
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 $spacing-md;
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-right: $spacing-md;
+}
+
+.logo-text {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $netflix-red;
+  letter-spacing: -1px;
+}
+
+.nav {
+  display: flex;
+  gap: $spacing-lg;
+
+  @include mobile {
+    gap: $spacing-md;
+  }
+}
+
+.nav-link {
+  color: $text-secondary;
+  text-decoration: none;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  padding: $spacing-sm;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+
+  &.active {
+    color: $text-primary;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.settings-btn {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  color: $text-secondary;
+  transition: color $transition-fast, background-color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+    background-color: rgba($text-primary, 0.1);
+  }
+}

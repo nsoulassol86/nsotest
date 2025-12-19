@@ -1,0 +1,134 @@
+@use 'variables' as *;
+
+// Responsive breakpoint mixins
+@mixin mobile {
+  @media (max-width: #{$breakpoint-sm - 1}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $breakpoint-sm) and (max-width: #{$breakpoint-lg - 1}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin large-desktop {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+// Netflix card hover effect
+@mixin card-hover {
+  transition: transform $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: $shadow-xl;
+    z-index: 10;
+  }
+}
+
+// Text truncation
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Focus visible outline
+@mixin focus-visible {
+  &:focus-visible {
+    outline: 2px solid $accent-focus;
+    outline-offset: 2px;
+  }
+}
+
+// Netflix-style button
+@mixin netflix-button($variant: 'primary') {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-sm;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-base;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+  text-decoration: none;
+
+  @if $variant == 'primary' {
+    background-color: $netflix-red;
+    color: $text-primary;
+    border: none;
+
+    &:hover {
+      background-color: $netflix-red-dark;
+    }
+  } @else if $variant == 'secondary' {
+    background-color: rgba($text-primary, 0.3);
+    color: $text-primary;
+    border: none;
+
+    &:hover {
+      background-color: rgba($text-primary, 0.4);
+    }
+  } @else if $variant == 'outline' {
+    background-color: transparent;
+    color: $text-primary;
+    border: 1px solid $text-secondary;
+
+    &:hover {
+      background-color: $text-primary;
+      color: $bg-primary;
+    }
+  }
+
+  @include focus-visible;
+}
+
+// Aspect ratio container
+@mixin aspect-ratio($width, $height) {
+  aspect-ratio: #{$width} / #{$height};
+}
+
+// Scrollbar hidden
+@mixin hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// Flex center
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Absolute fill
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

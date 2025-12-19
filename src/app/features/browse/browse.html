@@ -1,0 +1,31 @@
+<app-header />
+
+<main class="browse-page">
+  @if (state.isLoading()) {
+    <div class="loading-container">
+      <app-loading-spinner />
+      <p>Chargement du contenu...</p>
+    </div>
+  } @else if (state.currentSectionData(); as section) {
+    <div class="browse-content">
+      @for (category of section.categories; track category.id) {
+        <app-carousel
+          [title]="category.name"
+          [items]="category.items"
+          [showAllLink]="getCategoryLink(category.id)"
+          [showEpisodeInfo]="section.type !== 'series'"
+          (itemClick)="onItemClick($event)"
+          (playClick)="onPlayClick($event)"
+        />
+      } @empty {
+        <div class="empty-state">
+          <p>Aucun contenu disponible dans cette section</p>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <p>Sélectionnez une section pour parcourir le contenu</p>
+    </div>
+  }
+</main>

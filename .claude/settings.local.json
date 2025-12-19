@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(for size in 72 96 128 144 152 192 384 512)",
+      "Bash(do echo \"Creating icon-$sizex$size.png placeholder\")",
+      "Bash(done)",
+      "Bash(node generate-icons.js:*)",
+      "Bash(dir:*)",
+      "Bash(Remove-Item -Path \"d:\\\\perso\\\\nsotest\\\\src\\\\assets\\\\icons\\\\icon-*x*.svg\")",
+      "Bash(node:*)",
+      "Bash(npx cap init:*)",
+      "Bash(npx cap add android)",
+      "Bash(netlify deploy:*)"
+    ]
+  }
+}

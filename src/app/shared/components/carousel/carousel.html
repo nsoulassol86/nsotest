@@ -1,0 +1,61 @@
+<section class="carousel">
+  <div class="carousel-header">
+    <h2 class="carousel-title">{{ title() }}</h2>
+    @if (showAllLink()) {
+      <a [routerLink]="showAllLink()" class="see-all">Voir tout</a>
+    }
+  </div>
+
+  <div class="carousel-container">
+    @if (canScrollLeft()) {
+      <button
+        class="carousel-nav carousel-nav--left"
+        (click)="scroll('left')"
+        aria-label="Défiler vers la gauche"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+    }
+
+    <div #container class="carousel-track" (scroll)="onScroll()">
+      @for (item of visibleItems(); track item.id) {
+        <app-media-card
+          [item]="item"
+          [showEpisodeInfo]="showEpisodeInfo()"
+          (cardClick)="onItemClick($event)"
+          (playClick)="onPlayClick($event)"
+        />
+      }
+    </div>
+
+    @if (canScrollRight()) {
+      <button
+        class="carousel-nav carousel-nav--right"
+        (click)="scroll('right')"
+        aria-label="Défiler vers la droite"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    }
+  </div>
+</section>

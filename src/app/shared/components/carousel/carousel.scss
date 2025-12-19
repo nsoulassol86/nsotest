@@ -1,0 +1,118 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.carousel {
+  position: relative;
+}
+
+.carousel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 $spacing-md;
+
+  @include mobile {
+    padding: 0 $spacing-md;
+  }
+}
+
+.carousel-title {
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  margin: 0;
+
+  @include mobile {
+    font-size: $font-size-sm;
+  }
+}
+
+.see-all {
+  color: $text-secondary;
+  text-decoration: none;
+  font-size: $font-size-sm;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.carousel-container {
+  position: relative;
+
+  &:hover .carousel-nav {
+    opacity: 1;
+  }
+}
+
+.carousel-track {
+  display: flex;
+  gap: $card-gap;
+  padding: $spacing-md 0;
+  margin: 0 $spacing-sm;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  @include hide-scrollbar;
+
+  > * {
+    scroll-snap-align: start;
+  }
+
+  > app-media-card:first-of-type {
+    padding-left: $spacing-sm;
+  }
+
+  > app-media-card:last-of-type {
+    padding-right: $spacing-sm;
+  }
+
+  @include mobile {
+    padding: $spacing-sm 0;
+
+    > app-media-card:first-of-type {
+      padding-left: $spacing-xs;
+    }
+
+    > app-media-card:last-of-type {
+      padding-right: $spacing-xs;
+    }
+  }
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 10;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity $transition-fast;
+  @include flex-center;
+  color: $text-primary;
+
+  &--left {
+    left: 0;
+    background: linear-gradient(to right, rgba($bg-primary, 0.9) 0%, transparent 100%);
+  }
+
+  &--right {
+    right: 0;
+    background: linear-gradient(to left, rgba($bg-primary, 0.9) 0%, transparent 100%);
+  }
+
+  svg {
+    transition: transform $transition-fast;
+  }
+
+  &:hover svg {
+    transform: scale(1.2);
+  }
+
+  @include mobile {
+    display: none;
+  }
+}

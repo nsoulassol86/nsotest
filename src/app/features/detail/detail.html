@@ -1,0 +1,119 @@
+<app-header />
+
+<main class="detail-page">
+  @if (item(); as mediaItem) {
+    <div class="detail-hero" [style.background-image]="'url(' + mediaItem.thumbnail + ')'">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <button class="back-btn" (click)="goBack()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Retour
+        </button>
+
+        <div class="hero-info">
+          <h1 class="title">{{ mediaItem.seriesName || mediaItem.title }}</h1>
+
+          <div class="meta">
+            <span class="category">{{ mediaItem.category }}</span>
+            @if (mediaItem.seasonNumber && mediaItem.episodeNumber) {
+              <span class="episode-info">Saison {{ mediaItem.seasonNumber }} - Épisode {{ mediaItem.episodeNumber }}</span>
+            }
+          </div>
+
+          @if (mediaItem.description) {
+            <p class="description">{{ mediaItem.description }}</p>
+          }
+
+          <div class="actions">
+            <button class="play-btn" (click)="onPlay()">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Lecture
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if (series(); as seriesData) {
+      <section class="seasons-section">
+        <div class="season-selector">
+          <h2>Saisons</h2>
+          <div class="season-tabs">
+            @for (season of seriesData.seasons; track season.number) {
+              <button
+                class="season-tab"
+                [class.active]="selectedSeason() === season.number"
+                (click)="onSeasonChange(season.number)"
+              >
+                Saison {{ season.number }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="episodes-list">
+          @for (episode of currentSeasonEpisodes(); track episode.number) {
+            <div class="episode-card" (click)="onPlayEpisode(episode.streamUrl)">
+              <div class="episode-thumbnail">
+                @if (episode.thumbnail) {
+                  <img [src]="episode.thumbnail" [alt]="episode.title" loading="lazy" />
+                }
+                <div class="play-overlay">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </div>
+              </div>
+              <div class="episode-info">
+                <span class="episode-number">{{ episode.number }}.</span>
+                <span class="episode-title">{{ episode.title }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  } @else {
+    <div class="empty-state">
+      <p>Contenu non trouvé</p>
+      <button class="back-btn-large" (click)="goBack()">Retour à la navigation</button>
+    </div>
+  }
+</main>
+
+@if (state.isPlayerVisible() && state.selectedItem(); as selected) {
+  <div class="player-overlay">
+    <div class="player-container">
+      <app-video-player
+        [streamUrl]="selected.streamUrl"
+        [title]="selected.title"
+        [autoplay]="true"
+        (close)="state.closePlayer()"
+      />
+    </div>
+  </div>
+}

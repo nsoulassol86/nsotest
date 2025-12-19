@@ -1,0 +1,61 @@
+<div class="setup-page">
+  <div class="setup-container">
+    <div class="setup-header">
+      <h1 class="logo">Nico TV</h1>
+      <p class="subtitle">Entrez votre lien M3U pour commencer</p>
+    </div>
+
+    <div class="setup-form">
+      <div class="form-group">
+        <label for="m3u-url" class="form-label">URL du fichier M3U</label>
+        <input
+          id="m3u-url"
+          type="url"
+          class="form-input"
+          #urlInput
+          [value]="m3uUrl()"
+          (input)="onUrlChange(urlInput.value)"
+          (keydown.enter)="onSubmit()"
+          placeholder="https://example.com/playlist.m3u"
+          [disabled]="state.isLoading()"
+        />
+      </div>
+
+      @if (state.error()) {
+        <div class="error-message">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span>{{ state.error() }}</span>
+        </div>
+      }
+
+      <button type="button" class="submit-btn" [disabled]="state.isLoading() || !m3uUrl()" (click)="onSubmit()">
+        @if (state.isLoading()) {
+          <app-loading-spinner />
+          <span>Chargement...</span>
+        } @else {
+          <span>Charger la playlist</span>
+        }
+      </button>
+    </div>
+
+    <div class="setup-info">
+      <h3>Formats supportés</h3>
+      <ul>
+        <li>M3U / M3U8 standard</li>
+        <li>Format IPTV avec attributs (tvg-logo, tvg-name, group-title)</li>
+      </ul>
+    </div>
+  </div>
+</div>

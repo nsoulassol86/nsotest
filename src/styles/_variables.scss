@@ -1,0 +1,128 @@
+// ===========================================
+// Netflix-inspired Color Palette
+// ===========================================
+
+// Primary Colors
+$netflix-red: #e50914;
+$netflix-red-dark: #b20710;
+$netflix-red-light: #f40612;
+
+// Background Colors
+$bg-primary: #141414;
+$bg-secondary: #181818;
+$bg-tertiary: #232323;
+$bg-card: #2f2f2f;
+$bg-overlay: rgba(0, 0, 0, 0.8);
+
+// Text Colors
+$text-primary: #ffffff;
+$text-secondary: #b3b3b3;
+$text-muted: #808080;
+$text-disabled: #5a5a5a;
+
+// Accent Colors
+$accent-primary: $netflix-red;
+$accent-hover: $netflix-red-light;
+$accent-focus: #ffffff;
+
+// Gradients
+$gradient-overlay: linear-gradient(180deg, transparent 0%, rgba(20, 20, 20, 0.6) 50%, rgba(20, 20, 20, 1) 100%);
+$gradient-left: linear-gradient(90deg, rgba(20, 20, 20, 1) 0%, transparent 100%);
+$gradient-right: linear-gradient(270deg, rgba(20, 20, 20, 1) 0%, transparent 100%);
+
+// ===========================================
+// Typography
+// ===========================================
+
+$font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family-mono: 'SF Mono', Monaco, monospace;
+
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-md: 1.125rem;
+$font-size-lg: 1.25rem;
+$font-size-xl: 1.5rem;
+$font-size-2xl: 2rem;
+$font-size-3xl: 2.5rem;
+$font-size-4xl: 3rem;
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// ===========================================
+// Spacing
+// ===========================================
+
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+$spacing-3xl: 4rem;
+$spacing-4xl: 5rem;
+
+// ===========================================
+// Layout
+// ===========================================
+
+$header-height: 68px;
+$container-max-width: 1920px;
+$card-gap: 16px;
+
+// Card dimensions
+$card-width-sm: 120px;
+$card-width-md: 150px;
+$card-width-lg: 180px;
+
+// ===========================================
+// Breakpoints
+// ===========================================
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-2xl: 1400px;
+
+// ===========================================
+// Transitions
+// ===========================================
+
+$transition-fast: 150ms ease;
+$transition-base: 250ms ease;
+$transition-slow: 400ms ease;
+
+// ===========================================
+// Z-Index Scale
+// ===========================================
+
+$z-base: 0;
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-header: 300;
+$z-modal: 400;
+$z-player: 500;
+$z-notification: 600;
+
+// ===========================================
+// Shadows
+// ===========================================
+
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+$shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.5);
+
+// ===========================================
+// Border Radius
+// ===========================================
+
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 8px;
+$radius-xl: 12px;
+$radius-full: 9999px;
