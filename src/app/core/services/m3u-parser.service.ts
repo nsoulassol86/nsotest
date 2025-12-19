@@ -1,46 +1,81 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, catchError, throwError } from 'rxjs';
+import { Observable, map, catchError, throwError, from, switchMap } from 'rxjs';
 import { M3URawEntry, M3UPlaylist } from '../../models';
 
 @Injectable({ providedIn: 'root' })
 export class M3UParserService {
   private readonly http = inject(HttpClient);
 
+  // Liste de proxies CORS à essayer
+  private readonly corsProxies = [
+    (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    (url: string) => `https://proxy.cors.sh/${url}`,
+    (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  ];
+
   /**
    * Fetch and parse M3U playlist from URL
    */
   parseFromUrl(url: string): Observable<M3UPlaylist> {
-    // Utiliser un proxy CORS pour les URLs HTTP sur un site HTTPS
-    const fetchUrl = this.getProxiedUrl(url);
+    const isHttpUrl = url.startsWith('http://');
+    const isLocalhost = window.location.hostname === 'localhost';
 
-    return this.http.get(fetchUrl, { responseType: 'text' }).pipe(
-      map((content) => {
-        // Debug: afficher les premiers caractères pour voir ce qu'on reçoit
-        return this.parseContent(content, url);
+    // En dev local ou URL HTTPS, utiliser directement
+    if (isLocalhost && isHttpUrl) {
+      return this.fetchAndParse(`/api/proxy?url=${encodeURIComponent(url)}`, url);
+    }
+
+    if (!isHttpUrl) {
+      return this.fetchAndParse(url, url);
+    }
+
+    // En prod avec URL HTTP, essayer les proxies CORS un par un
+    return from(this.tryProxies(url)).pipe(
+      switchMap((content) => {
+        try {
+          return [this.parseContent(content, url)];
+        } catch (e) {
+          throw e;
+        }
       }),
       catchError((error) => throwError(() => new Error(`Failed to load M3U: ${error.message}`)))
     );
   }
 
+  private fetchAndParse(fetchUrl: string, originalUrl: string): Observable<M3UPlaylist> {
+    return this.http.get(fetchUrl, { responseType: 'text' }).pipe(
+      map((content) => this.parseContent(content, originalUrl)),
+      catchError((error) => throwError(() => new Error(`Failed to load M3U: ${error.message}`)))
+    );
+  }
+
   /**
-   * Proxy HTTP URLs through CORS proxy to avoid CORS and mixed content errors
+   * Try multiple CORS proxies until one works
    */
-  private getProxiedUrl(url: string): string {
-    const isHttpUrl = url.startsWith('http://');
-    const isLocalhost = window.location.hostname === 'localhost';
-
-    if (!isHttpUrl) {
-      return url;
+  private async tryProxies(url: string): Promise<string> {
+    for (const proxyFn of this.corsProxies) {
+      const proxyUrl = proxyFn(url);
+      try {
+        console.log('Trying proxy:', proxyUrl);
+        const response = await fetch(proxyUrl);
+        if (response.ok) {
+          const text = await response.text();
+          // Vérifier que c'est bien un fichier M3U
+          if (text.trim().startsWith('#EXTM3U')) {
+            console.log('Success with proxy:', proxyUrl);
+            return text;
+          }
+          console.log('Invalid M3U content from:', proxyUrl);
+        } else {
+          console.log('Proxy failed with status:', response.status);
+        }
+      } catch (e) {
+        console.log('Proxy error:', e);
+      }
     }
-
-    // En dev local, utiliser notre serveur Express
-    if (isLocalhost) {
-      return `/api/proxy?url=${encodeURIComponent(url)}`;
-    }
-
-    // En prod, utiliser un proxy CORS public (requête depuis le navigateur)
-    return `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    throw new Error('All CORS proxies failed');
   }
 
   /**
