@@ -24,17 +24,23 @@ export class M3UParserService {
   }
 
   /**
-   * Proxy HTTP URLs through server to avoid CORS and mixed content errors
+   * Proxy HTTP URLs through CORS proxy to avoid CORS and mixed content errors
    */
   private getProxiedUrl(url: string): string {
     const isHttpUrl = url.startsWith('http://');
+    const isLocalhost = window.location.hostname === 'localhost';
 
-    // Proxy toutes les URLs HTTP pour éviter CORS et mixed content
-    if (isHttpUrl) {
+    if (!isHttpUrl) {
+      return url;
+    }
+
+    // En dev local, utiliser notre serveur Express
+    if (isLocalhost) {
       return `/api/proxy?url=${encodeURIComponent(url)}`;
     }
 
-    return url;
+    // En prod, utiliser un proxy CORS public (requête depuis le navigateur)
+    return `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
   }
 
   /**
